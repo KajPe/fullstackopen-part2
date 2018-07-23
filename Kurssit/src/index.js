@@ -22,8 +22,7 @@ const Sisalto = ({ osat }) => {
 }
 
 const Yhteensa = ({ osat }) => {
-  let total = 0
-  osat.map(osa => total+=osa.tehtavia)
+  const total = osat.reduce((sum,osa) => (sum + osa.tehtavia), 0)
 
   return (
     <div>
