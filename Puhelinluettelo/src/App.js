@@ -63,7 +63,30 @@ class App extends React.Component {
     const index = this.state.persons.findIndex(person => person.name === this.state.newName)
 
     if (index !== -1) {
-      alert(this.state.newName + ' on jo luettelossa')
+      const person = this.state.persons[index]
+      const id = person.id
+
+      const result = window.confirm(this.state.newName + ' on jo luettelossa, korvataanko vanha numero uudella?')
+      if (result) {
+        const personObject = {
+          name: this.state.newName,
+          number: this.state.newNumber
+        }
+
+        PersonsService
+          .update(id, personObject)
+          .then(response => {
+            const persons = this.state.persons.map(person => person.id !== id ? person : response)
+            this.setState({
+              persons: persons,
+              newName: '',
+              newNumber: ''
+            })
+          })
+          .catch(error => {
+            alert('Tietokannan päivitys epäonnistui')
+          })
+      }
       return
     }
 
