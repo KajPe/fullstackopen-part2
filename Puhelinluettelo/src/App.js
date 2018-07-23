@@ -1,7 +1,7 @@
 import React from 'react'
-import axios from 'axios'
 import Search from  './components/Search'
 import Persons from  './components/Persons'
+import PersonsService from './services/persons'
 
 class App extends React.Component {
   constructor(props) {
@@ -15,10 +15,10 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        this.setState({ persons: response.data })
+    PersonsService
+      .getAll()
+      .then(persons => {
+        this.setState({ persons: persons })
       })
   }
 
@@ -54,11 +54,11 @@ class App extends React.Component {
       number: this.state.newNumber
     }
 
-    axios
-      .post('http://localhost:3001/persons', personObject)
-      .then(response => {
+    PersonsService
+      .create(personObject)
+      .then(newPerson => {
         this.setState({
-          persons: this.state.persons.concat(response.data),
+          persons: this.state.persons.concat(newPerson),
           newName: '',
           newNumber: ''
         })
