@@ -1,5 +1,6 @@
 import React from 'react'
-import Person from  './components/Person'
+import Search from  './components/Search'
+import Persons from  './components/Persons'
 
 class App extends React.Component {
   constructor(props) {
@@ -17,9 +18,9 @@ class App extends React.Component {
     }
   }
 
-  handleSearch = (event) => {
+  setSearch = (s) => {
     this.setState({ 
-        search: event.target.value
+      search: s
     })
   }
 
@@ -62,11 +63,7 @@ class App extends React.Component {
     return (
       <div>
         <h2>Puhelinluettelo</h2>
-
-        <div>
-          Rajaa näytettäviä: <input value={this.state.search} onChange={this.handleSearch} />
-        </div>
-
+        <Search search={this.state.search} setSearch={this.setSearch} />
         <h2>Lisää uusi</h2>
         <form onSubmit={this.addNewname}>
           <div>
@@ -79,17 +76,7 @@ class App extends React.Component {
             <button type="submit">lisää</button>
           </div>
         </form>
-        <h2>Numerot</h2>
-        <div>
-          <table>
-            <tbody>
-              {this.state.persons
-                .filter(person => person.name.toLowerCase().includes(this.state.search.toLowerCase()))
-                .map(person => <Person key={person.name} person={person} />)
-              }
-            </tbody>
-          </table>
-        </div>
+        <Persons persons={this.state.persons} search={this.state.search} />        
       </div>
     )
   }
