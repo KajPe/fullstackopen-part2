@@ -63,9 +63,10 @@ class App extends React.Component {
             info: `Henkilö ${person.name} poistettu`
           })
         })
-        .catch(error => {
-          this.setState({
-            error: `Henkilön ${person.name} poistaminen epäonnistui`
+        .catch(response => {
+          this.setState({ 
+            error: `Henkilön ${person.name} poistaminen epäonnistui, koska oli jo poistettu!`,
+            persons: this.state.persons.filter(person => person.id !== id)
           })
         })
     }
@@ -98,9 +99,14 @@ class App extends React.Component {
             })
           })
           .catch(error => {
-            this.setState({
-              error: `Henkilön ${person.name} päivitys epäonnistui`
-            })
+            PersonsService
+              .getAll()
+              .then(persons => {
+                this.setState({ 
+                  persons: persons,
+                  error: `Henkilön ${person.name} päivitys epäonnistui. Kenties henkilö on poistettu, haetaan luettelo uudelleen.`
+                })
+              })
           })
       }
       return
@@ -123,7 +129,7 @@ class App extends React.Component {
       })
       .catch(error => {
         this.setState({
-          error: `Henkilön ${personObject.name} lisäys epäonnistui`
+          error: `Henkilön ${personObject.name} lisäys epäonnistui. Ole hyvä ja yritä uudelleen.`
         })
       })
   }
