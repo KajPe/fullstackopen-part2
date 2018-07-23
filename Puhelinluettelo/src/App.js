@@ -6,10 +6,20 @@ class App extends React.Component {
     super(props)
     this.state = {
       persons: [
-        { name: 'Arto Hellas' }
+        {
+          name: 'Arto Hellas',
+          number: '040-123456' 
+        }
       ],
-      newName: ''
+      newName: '',
+      newNumber: ''
     }
+  }
+
+  handleNumberChange = (event) => {
+    this.setState({ 
+      newNumber: event.target.value
+    })
   }
 
   handleNewnameChange = (event) => {
@@ -28,14 +38,16 @@ class App extends React.Component {
     }
 
     const personObject = {
-      name: this.state.newName
+      name: this.state.newName,
+      number: this.state.newNumber
     }
 
     const persons = this.state.persons.concat(personObject)
 
     this.setState({
       persons: persons,
-      newName: ''
+      newName: '',
+      newNumber: ''
     })
   }
 
@@ -48,12 +60,19 @@ class App extends React.Component {
             nimi: <input value={this.state.newName} onChange={this.handleNewnameChange} />
           </div>
           <div>
+            numero: <input value={this.state.newNumber} onChange={this.handleNumberChange} />
+          </div>
+          <div>
             <button type="submit">lisää</button>
           </div>
         </form>
         <h2>Numerot</h2>
         <div>
-          {this.state.persons.map(person => <Person key={person.name} person={person} />)}
+          <table>
+            <tbody>
+              {this.state.persons.map(person => <Person key={person.name} person={person} />)}
+            </tbody>
+          </table>
         </div>
       </div>
     )
