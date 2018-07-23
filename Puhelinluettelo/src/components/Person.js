@@ -1,9 +1,20 @@
 import React from 'react'
 
-const Person = ({ person }) => {
-  return (
-    <tr><td>{person.name}</td><td>{person.number}</td></tr>
-  )
+class Person extends React.Component {
+  removeUser = (event) => {
+    event.preventDefault()
+    this.props.removeUser(this.props.person.id)
+  }
+
+  render() {
+    return (
+      <tr>
+        <td>{this.props.person.name}</td>
+        <td>{this.props.person.number}</td>
+        <td><button onClick={this.removeUser}>Poista</button></td>
+      </tr>
+    )
+  }
 }
 
 export default Person

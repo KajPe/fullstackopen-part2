@@ -11,7 +11,7 @@ class Persons extends React.Component {
             <tbody>
               {this.props.persons
                 .filter(person => person.name.toLowerCase().includes(this.props.search.toLowerCase()))
-                .map(person => <Person key={person.name} person={person} />)
+                .map(person => <Person key={person.name} person={person} removeUser={this.props.removeUser} />)
               }
             </tbody>
           </table>

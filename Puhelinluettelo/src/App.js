@@ -40,6 +40,24 @@ class App extends React.Component {
     })
   }
 
+  removeUser = (id) => {
+    const person = this.state.persons.find(person => person.id === id)
+    const result = window.confirm('poistetaanko ' + person.name)
+    if (result) {
+      PersonsService
+        .remove(id)
+        .then(response => {
+          const persons = this.state.persons.filter(n => n.id !== id)
+          this.setState({
+            persons: persons
+          })
+        })
+        .catch(error => {
+          alert("Poistaminen epäonnistui")
+        })
+    }
+  }
+
   addNewname = (event) => {
     event.preventDefault()
     const index = this.state.persons.findIndex(person => person.name === this.state.newName)
@@ -85,7 +103,7 @@ class App extends React.Component {
             <button type="submit">lisää</button>
           </div>
         </form>
-        <Persons persons={this.state.persons} search={this.state.search} />        
+        <Persons persons={this.state.persons} search={this.state.search} removeUser={this.removeUser} />        
       </div>
     )
   }
