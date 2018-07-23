@@ -20,7 +20,13 @@ class App extends React.Component {
 
   addNewname = (event) => {
     event.preventDefault()
-  
+    const index = this.state.persons.findIndex(person => person.name === this.state.newName)
+
+    if (index !== -1) {
+      alert(this.state.newName + ' on jo luettelossa')
+      return
+    }
+
     const personObject = {
       name: this.state.newName
     }
