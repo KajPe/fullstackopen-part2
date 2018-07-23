@@ -21,11 +21,23 @@ const Sisalto = ({ osat }) => {
   )
 }
 
+const Yhteensa = ({ osat }) => {
+  let total = 0
+  osat.map(osa => total+=osa.tehtavia)
+
+  return (
+    <div>
+      yhteensä {total} tehtävää
+    </div>
+  )
+}
+
 const Kurssi = ({ kurssi }) => {
   return (
     <div>
       <Otsikko nimi={kurssi.nimi} />
       <Sisalto osat={kurssi.osat} />
+      <Yhteensa osat={kurssi.osat} />
     </div>
   )
 }
@@ -50,8 +62,8 @@ const App = () => {
         id: 3
       },
       {
-        nimi: 'Lisätty osa',
-        tehtavia: 12,
+        nimi: 'Redux',
+        tehtavia: 7,
         id: 4
       }
     ]
