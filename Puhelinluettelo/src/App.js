@@ -2,6 +2,7 @@ import React from 'react'
 import Search from  './components/Search'
 import Persons from  './components/Persons'
 import PersonsService from './services/persons'
+import Notification from  './components/Notification'
 
 class App extends React.Component {
   constructor(props) {
@@ -10,8 +11,17 @@ class App extends React.Component {
       persons: [],
       newName: '',
       newNumber: '',
-      search: ''
+      search: '',
+      error: null,
+      info: null
     }
+  }
+
+  clearNotification = () => {
+    this.setState({
+      error: null,
+      info: null
+    })
   }
 
   componentDidMount() {
@@ -49,11 +59,14 @@ class App extends React.Component {
         .then(response => {
           const persons = this.state.persons.filter(n => n.id !== id)
           this.setState({
-            persons: persons
+            persons: persons,
+            info: `Henkilö ${person.name} poistettu`
           })
         })
         .catch(error => {
-          alert("Poistaminen epäonnistui")
+          this.setState({
+            error: `Henkilön ${person.name} poistaminen epäonnistui`
+          })
         })
     }
   }
@@ -80,11 +93,14 @@ class App extends React.Component {
             this.setState({
               persons: persons,
               newName: '',
-              newNumber: ''
+              newNumber: '',
+              info: `Henkilö ${person.name} päivitettiin`
             })
           })
           .catch(error => {
-            alert('Tietokannan päivitys epäonnistui')
+            this.setState({
+              error: `Henkilön ${person.name} päivitys epäonnistui`
+            })
           })
       }
       return
@@ -101,11 +117,14 @@ class App extends React.Component {
         this.setState({
           persons: this.state.persons.concat(newPerson),
           newName: '',
-          newNumber: ''
+          newNumber: '',
+          info: `Henkilö ${personObject.name} lisättiin`
         })
       })
       .catch(error => {
-        alert('Tietokantaan kirjoitus epäonnistui')
+        this.setState({
+          error: `Henkilön ${personObject.name} lisäys epäonnistui`
+        })
       })
   }
 
@@ -113,6 +132,7 @@ class App extends React.Component {
     return (
       <div>
         <h2>Puhelinluettelo</h2>
+        <Notification errormessage={this.state.error} infomessage={this.state.info} clearNotification={this.clearNotification}/>
         <Search search={this.state.search} setSearch={this.setSearch} />
         <h2>Lisää uusi</h2>
         <form onSubmit={this.addNewname}>
