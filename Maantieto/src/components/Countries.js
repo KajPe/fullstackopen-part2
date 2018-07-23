@@ -17,7 +17,7 @@ class Countries extends React.Component {
     } else if (countries.length <= 10) {
       return (
         <div>
-          {countries.map(country => <Country key={country.name} country={country} />)}
+          {countries.map(country => <Country key={country.name} country={country} setSearch={this.props.setSearch} />)}
         </div>
       )
     } else {

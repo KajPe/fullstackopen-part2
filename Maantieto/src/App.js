@@ -30,7 +30,7 @@ class App extends React.Component {
     return (
       <div>
         <Search search={this.state.search} setSearch={this.setSearch} />
-        <Countries countries={this.state.countries} search={this.state.search} />        
+        <Countries countries={this.state.countries} search={this.state.search} setSearch={this.setSearch} />        
       </div>
     )
   }
